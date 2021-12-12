@@ -182,6 +182,22 @@ export default class UserController {
       },
     });
   }
+  @Get("/users/task/{taskId}")
+  @Tags("Users")
+  @Security("bearer")
+  public async getTaskCreator(@Path() taskId: number) {
+    const task = await prisma.task.findUnique({
+      where: {
+        id: +taskId,
+      },
+    });
+
+    return await prisma.user.findUnique({
+      where: {
+        id: task.createdById,
+      },
+    });
+  }
 
   @Patch("/users/{id}")
   @Tags("Users")

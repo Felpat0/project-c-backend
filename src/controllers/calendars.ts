@@ -66,7 +66,7 @@ export default class CalendarController {
   public async getCalendar(@Path() id: number): Promise<CalendarResponse> {
     return await prisma.calendar.findUnique({
       where: {
-        id: +id,
+        id: id,
       },
     });
   }

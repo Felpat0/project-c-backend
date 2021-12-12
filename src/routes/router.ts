@@ -233,6 +233,14 @@ router.get("/users/:id", verifyAuth, async (req: any, res: any) => {
   res.send(await userController.getUser(parseInt(id)));
 });
 
+router.get("/users/task/:taskId", verifyAuth, async (req: any, res: any) => {
+  const { taskId } = req.params;
+  if (!taskId) return res.status(406).send("Attributes not valid");
+
+  let userController = new UserController();
+  res.send(await userController.getTaskCreator(parseInt(taskId)));
+});
+
 //---------------------------------------Calendars---------------------------------------
 router.post("/calendar", verifyAuth, async (req: any, res: any) => {
   let calendarController = new CalendarController();
@@ -257,7 +265,7 @@ router.patch("/calendar/:id", verifyAuth, async (req: any, res: any) => {
   res.send(await calendarController.updateCalendar(parseInt(id), req.body));
 });
 
-//---------------------------------------Calendars---------------------------------------
+//---------------------------------------Tasks---------------------------------------
 router.post("/task", verifyAuth, async (req: any, res: any) => {
   let taskController = new TaskController();
   res.json(await taskController.createTask(req.body, req));
@@ -268,6 +276,15 @@ router.get("/task/user/:userId", verifyAuth, async (req: any, res: any) => {
   let taskController = new TaskController();
   res.json(await taskController.getUserTasks(parseInt(userId)));
 });
+router.get(
+  "/task/calendar/:calendarId",
+  verifyAuth,
+  async (req: any, res: any) => {
+    const { calendarId } = req.params;
+    let taskController = new TaskController();
+    res.json(await taskController.getCalendarTasks(parseInt(calendarId)));
+  }
+);
 
 router.get("/task/:id", verifyAuth, async (req: any, res: any) => {
   const { id } = req.params;

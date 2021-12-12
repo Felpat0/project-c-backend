@@ -134,6 +134,66 @@
 				"type": "object",
 				"additionalProperties": false
 			},
+			"user": {
+				"properties": {
+					"passwordResetExpireDate": {
+						"type": "string",
+						"format": "date-time",
+						"nullable": true
+					},
+					"passwordResetCode": {
+						"type": "string",
+						"nullable": true
+					},
+					"twitterId": {
+						"type": "string",
+						"nullable": true
+					},
+					"facebookId": {
+						"type": "string",
+						"nullable": true
+					},
+					"googleId": {
+						"type": "string",
+						"nullable": true
+					},
+					"profilePhoto": {
+						"type": "string",
+						"nullable": true
+					},
+					"role": {
+						"type": "string"
+					},
+					"password": {
+						"type": "string"
+					},
+					"email": {
+						"type": "string"
+					},
+					"nominative": {
+						"type": "string"
+					},
+					"id": {
+						"type": "number",
+						"format": "double"
+					}
+				},
+				"required": [
+					"passwordResetExpireDate",
+					"passwordResetCode",
+					"twitterId",
+					"facebookId",
+					"googleId",
+					"profilePhoto",
+					"role",
+					"password",
+					"email",
+					"nominative",
+					"id"
+				],
+				"type": "object",
+				"description": "Model user"
+			},
 			"TaskResponse": {
 				"properties": {
 					"type": {
@@ -152,6 +212,9 @@
 					},
 					"isGlobal": {
 						"type": "boolean"
+					},
+					"createdBy": {
+						"$ref": "#/components/schemas/user"
 					}
 				},
 				"required": [
@@ -244,66 +307,6 @@
 				],
 				"type": "object",
 				"additionalProperties": false
-			},
-			"user": {
-				"properties": {
-					"passwordResetExpireDate": {
-						"type": "string",
-						"format": "date-time",
-						"nullable": true
-					},
-					"passwordResetCode": {
-						"type": "string",
-						"nullable": true
-					},
-					"twitterId": {
-						"type": "string",
-						"nullable": true
-					},
-					"facebookId": {
-						"type": "string",
-						"nullable": true
-					},
-					"googleId": {
-						"type": "string",
-						"nullable": true
-					},
-					"profilePhoto": {
-						"type": "string",
-						"nullable": true
-					},
-					"role": {
-						"type": "string"
-					},
-					"password": {
-						"type": "string"
-					},
-					"email": {
-						"type": "string"
-					},
-					"nominative": {
-						"type": "string"
-					},
-					"id": {
-						"type": "number",
-						"format": "double"
-					}
-				},
-				"required": [
-					"passwordResetExpireDate",
-					"passwordResetCode",
-					"twitterId",
-					"facebookId",
-					"googleId",
-					"profilePhoto",
-					"role",
-					"password",
-					"email",
-					"nominative",
-					"id"
-				],
-				"type": "object",
-				"description": "Model user"
 			},
 			"SignupParams": {
 				"properties": {
@@ -586,6 +589,45 @@
 					{
 						"in": "path",
 						"name": "userId",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				]
+			}
+		},
+		"/task/calendar/{calendarId}": {
+			"get": {
+				"operationId": "GetCalendarTasks",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"items": {
+										"$ref": "#/components/schemas/TaskResponse"
+									},
+									"type": "array"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Task"
+				],
+				"security": [
+					{
+						"bearer": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "calendarId",
 						"required": true,
 						"schema": {
 							"format": "double",
@@ -1022,6 +1064,42 @@
 						}
 					}
 				}
+			}
+		},
+		"/users/task/{taskId}": {
+			"get": {
+				"operationId": "GetTaskCreator",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/user"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Users"
+				],
+				"security": [
+					{
+						"bearer": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "taskId",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				]
 			}
 		}
 	},

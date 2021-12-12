@@ -1,4 +1,4 @@
-import { Task } from "@prisma/client";
+import { Task, user } from "@prisma/client";
 import {
   Route,
   Post,
@@ -35,6 +35,7 @@ interface TaskResponse {
   startDate: Date;
   endDate: Date;
   isGlobal?: boolean;
+  createdBy?: user;
 }
 
 @Route("task")
@@ -67,6 +68,22 @@ export default class TaskController {
     return await prisma.task.findMany({
       where: {
         createdById: userId,
+      },
+    });
+  }
+
+  @Get("/calendar/{calendarId}")
+  @Tags("Task")
+  @Security("bearer")
+  public async getCalendarTasks(
+    @Path() calendarId: number
+  ): Promise<TaskResponse[]> {
+    return await prisma.task.findMany({
+      where: {
+        ofCalendarId: calendarId,
+      },
+      include: {
+        createdBy: true,
       },
     });
   }
