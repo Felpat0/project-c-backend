@@ -10,11 +10,6 @@ interface AuthResponse {
   error?: any;
 }
 
-interface LoginParams {
-  email: string;
-  password: string;
-}
-
 interface ForgotPasswordParams {
   email: string;
 }

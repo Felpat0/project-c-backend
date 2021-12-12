@@ -3,6 +3,8 @@ import passport from "../passport";
 import UserController from "../controllers/users";
 import { verifyAuth } from "../middlewares/auth";
 import { getSessionUserData } from "../utils/user";
+import CalendarController from "../controllers/calendars";
+import TaskController from "../controllers/tasks";
 
 const router = express.Router();
 const morgan = require("morgan");
@@ -229,6 +231,54 @@ router.get("/users/:id", verifyAuth, async (req: any, res: any) => {
 
   let userController = new UserController();
   res.send(await userController.getUser(parseInt(id)));
+});
+
+//---------------------------------------Calendars---------------------------------------
+router.post("/calendar", verifyAuth, async (req: any, res: any) => {
+  let calendarController = new CalendarController();
+  res.json(await calendarController.createCalendar(req.body, req));
+});
+
+router.get("/calendar/user/:userId", verifyAuth, async (req: any, res: any) => {
+  const { userId } = req.params;
+  let calendarController = new CalendarController();
+  res.json(await calendarController.getUserCalendars(parseInt(userId)));
+});
+
+router.get("/calendar/:id", verifyAuth, async (req: any, res: any) => {
+  const { id } = req.params;
+  let calendarController = new CalendarController();
+  res.send(await calendarController.getCalendar(parseInt(id)));
+});
+
+router.patch("/calendar/:id", verifyAuth, async (req: any, res: any) => {
+  const { id } = req.params;
+  let calendarController = new CalendarController();
+  res.send(await calendarController.updateCalendar(parseInt(id), req.body));
+});
+
+//---------------------------------------Calendars---------------------------------------
+router.post("/task", verifyAuth, async (req: any, res: any) => {
+  let taskController = new TaskController();
+  res.json(await taskController.createTask(req.body, req));
+});
+
+router.get("/task/user/:userId", verifyAuth, async (req: any, res: any) => {
+  const { userId } = req.params;
+  let taskController = new TaskController();
+  res.json(await taskController.getUserTasks(parseInt(userId)));
+});
+
+router.get("/task/:id", verifyAuth, async (req: any, res: any) => {
+  const { id } = req.params;
+  let taskController = new TaskController();
+  res.send(await taskController.getTask(parseInt(id)));
+});
+
+router.patch("/task/:id", verifyAuth, async (req: any, res: any) => {
+  const { id } = req.params;
+  let taskController = new TaskController();
+  res.send(await taskController.updateTask(parseInt(id), req.body));
 });
 
 //---------------------------------------File Uploading---------------------------------------
