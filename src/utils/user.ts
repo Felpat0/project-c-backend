@@ -30,3 +30,19 @@ export async function verifyGoogleToken(token: string) {
     console.log(err);
   }
 }
+
+export interface UserVisibleParams {
+  id: number;
+  nominative: string;
+  email: string;
+  profilePhoto?: string;
+}
+
+export const toUserVisibleParams = (user: any): UserVisibleParams => {
+  return {
+    id: user.id,
+    nominative: user.nominative,
+    email: user.email,
+    profilePhoto: user.profilePhoto,
+  };
+};

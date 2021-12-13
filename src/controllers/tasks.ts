@@ -11,6 +11,7 @@ import {
   Request,
 } from "tsoa";
 import { prisma } from "../prisma";
+import { toUserVisibleParams, UserVisibleParams } from "../utils/user";
 
 interface TaskCreateParams {
   type: string;
@@ -35,7 +36,7 @@ interface TaskResponse {
   startDate: Date;
   endDate: Date;
   isGlobal?: boolean;
-  createdBy?: user;
+  createdBy?: UserVisibleParams;
 }
 
 @Route("task")
@@ -78,7 +79,7 @@ export default class TaskController {
   public async getCalendarTasks(
     @Path() calendarId: number
   ): Promise<TaskResponse[]> {
-    return await prisma.task.findMany({
+    let tasks: TaskResponse[] = await prisma.task.findMany({
       where: {
         ofCalendarId: calendarId,
       },
@@ -86,6 +87,13 @@ export default class TaskController {
         createdBy: true,
       },
     });
+
+    tasks = tasks.map((task) => {
+      task.createdBy = toUserVisibleParams(task.createdBy);
+      return task;
+    });
+
+    return tasks;
   }
 
   @Get("/{id}")

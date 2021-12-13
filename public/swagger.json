@@ -134,65 +134,29 @@
 				"type": "object",
 				"additionalProperties": false
 			},
-			"user": {
+			"UserVisibleParams": {
 				"properties": {
-					"passwordResetExpireDate": {
-						"type": "string",
-						"format": "date-time",
-						"nullable": true
+					"id": {
+						"type": "number",
+						"format": "double"
 					},
-					"passwordResetCode": {
-						"type": "string",
-						"nullable": true
-					},
-					"twitterId": {
-						"type": "string",
-						"nullable": true
-					},
-					"facebookId": {
-						"type": "string",
-						"nullable": true
-					},
-					"googleId": {
-						"type": "string",
-						"nullable": true
-					},
-					"profilePhoto": {
-						"type": "string",
-						"nullable": true
-					},
-					"role": {
-						"type": "string"
-					},
-					"password": {
+					"nominative": {
 						"type": "string"
 					},
 					"email": {
 						"type": "string"
 					},
-					"nominative": {
+					"profilePhoto": {
 						"type": "string"
-					},
-					"id": {
-						"type": "number",
-						"format": "double"
 					}
 				},
 				"required": [
-					"passwordResetExpireDate",
-					"passwordResetCode",
-					"twitterId",
-					"facebookId",
-					"googleId",
-					"profilePhoto",
-					"role",
-					"password",
-					"email",
+					"id",
 					"nominative",
-					"id"
+					"email"
 				],
 				"type": "object",
-				"description": "Model user"
+				"additionalProperties": false
 			},
 			"TaskResponse": {
 				"properties": {
@@ -214,7 +178,7 @@
 						"type": "boolean"
 					},
 					"createdBy": {
-						"$ref": "#/components/schemas/user"
+						"$ref": "#/components/schemas/UserVisibleParams"
 					}
 				},
 				"required": [
@@ -307,6 +271,66 @@
 				],
 				"type": "object",
 				"additionalProperties": false
+			},
+			"user": {
+				"properties": {
+					"passwordResetExpireDate": {
+						"type": "string",
+						"format": "date-time",
+						"nullable": true
+					},
+					"passwordResetCode": {
+						"type": "string",
+						"nullable": true
+					},
+					"twitterId": {
+						"type": "string",
+						"nullable": true
+					},
+					"facebookId": {
+						"type": "string",
+						"nullable": true
+					},
+					"googleId": {
+						"type": "string",
+						"nullable": true
+					},
+					"profilePhoto": {
+						"type": "string",
+						"nullable": true
+					},
+					"role": {
+						"type": "string"
+					},
+					"password": {
+						"type": "string"
+					},
+					"email": {
+						"type": "string"
+					},
+					"nominative": {
+						"type": "string"
+					},
+					"id": {
+						"type": "number",
+						"format": "double"
+					}
+				},
+				"required": [
+					"passwordResetExpireDate",
+					"passwordResetCode",
+					"twitterId",
+					"facebookId",
+					"googleId",
+					"profilePhoto",
+					"role",
+					"password",
+					"email",
+					"nominative",
+					"id"
+				],
+				"type": "object",
+				"description": "Model user"
 			},
 			"SignupParams": {
 				"properties": {
